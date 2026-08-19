@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="AI Sales Machine — багатомовна демо-версія професійних AI-сценаріїв для продажів.">
+<meta name="robots" content="noindex,nofollow">
+<title>AI Sales Machine — AI для продажів</title>
+<style>
+:root{--bg:#060d18;--panel:#0b1727;--panel2:#102238;--text:#f6f8fb;--muted:#91a4bb;--accent:#6ee7b7;--blue:#60a5fa;--border:#20354d}*{box-sizing:border-box}html,body{margin:0;max-width:100%;overflow-x:hidden}body{font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:linear-gradient(135deg,#06101c,#0a1626);color:var(--text)}button{font:inherit;cursor:pointer}.nav{position:sticky;top:0;z-index:10;height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 5%;background:#060d18ee;border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}.logo{font-weight:900;letter-spacing:.2px}.logo span{color:var(--accent)}.langs{display:flex;gap:6px}.lang{padding:8px 11px;border:1px solid var(--border);border-radius:9px;background:transparent;color:var(--muted);font-weight:800}.lang.active{background:var(--panel2);color:var(--text);border-color:var(--blue)}.hero{max-width:1100px;margin:auto;padding:92px 5% 54px;text-align:center}.badge{display:inline-block;padding:8px 13px;border:1px solid #244d68;border-radius:999px;background:#0a2133;color:var(--accent);font-size:12px;font-weight:900;letter-spacing:.5px}h1{font-size:clamp(42px,7vw,76px);line-height:1;letter-spacing:-3px;margin:20px 0}.hero p{max-width:760px;margin:0 auto;color:var(--muted);font-size:20px;line-height:1.6}.cta{margin-top:28px;padding:15px 24px;border:0;border-radius:13px;background:var(--accent);color:#052017;font-weight:900;font-size:16px}.section{max-width:1100px;margin:auto;padding:18px 5% 76px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.card{background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:21px}.num{color:var(--blue);font-weight:900;font-size:13px}.card h3{margin:9px 0;font-size:19px}.card p{color:var(--muted);line-height:1.55;margin:0}.note{max-width:1100px;margin:0 auto;padding:0 5% 28px;color:var(--muted);font-size:14px;text-align:center}.modal{display:none;position:fixed;inset:0;z-index:50;background:#000b;align-items:center;justify-content:center;padding:18px}.box{width:min(900px,100%);max-height:92vh;overflow:auto;background:#0a1727;border:1px solid var(--border);border-radius:20px;padding:26px}.close{float:right;background:transparent;border:1px solid var(--border);color:var(--text);border-radius:9px;padding:7px 10px}.meta{color:var(--blue);font-weight:800;margin-top:6px}.box h2{margin:12px 0 16px}.prompt{white-space:pre-wrap;background:#050d17;border:1px solid var(--border);border-radius:14px;padding:18px;line-height:1.58;color:#dce7f2;font-size:14px}.copy{margin-top:14px;padding:12px 18px;border:0;border-radius:11px;background:var(--accent);color:#052017;font-weight:900}.footer{padding:30px 5%;border-top:1px solid var(--border);text-align:center;color:var(--muted);font-size:13px}@media(max-width:850px){.nav{height:64px;padding:0 16px}.hero{padding:58px 20px 40px}h1{font-size:clamp(38px,11vw,56px);letter-spacing:-2px}.hero p{font-size:17px}.section{padding:18px 16px 55px}.grid{grid-template-columns:1fr;gap:12px}.card{padding:18px}.box{padding:18px;border-radius:16px}.prompt{font-size:13px;padding:15px}.cta{width:100%;min-height:50px}.lang{padding:7px 9px;font-size:12px}}
+</style>
+</head><body>
+<nav class="nav"><div class="logo">AI <span>Sales Machine</span></div><div class="langs"><button class="lang active" data-lang="uk">UA</button><button class="lang" data-lang="en">EN</button><button class="lang" data-lang="pl">PL</button></div></nav>
+<main><section class="hero"><div class="badge" id="badge"></div><h1 id="title"></h1><p id="subtitle"></p><button class="cta" id="demoBtn"></button></section><section class="section"><div class="grid" id="cards"></div></section><div class="note" id="note"></div></main>
+<div class="modal" id="modal"><div class="box"><button class="close" id="closeBtn">✕</button><div class="meta" id="meta"></div><h2 id="modalTitle"></h2><div class="prompt" id="promptText"></div><button class="copy" id="copyBtn"></button></div></div>
+<footer class="footer">AI Sales Machine · Trial version</footer>
+<script>
+const T={
+uk:{badge:'ПРОБНА ВЕРСІЯ · 1 ВИПАДКОВИЙ ПРОМПТ',title:'AI-помічник для професійних продажів',subtitle:'Спробуйте один випадковий професійний сценарій із трьох ключових тем продажів. Інтерфейс і демо доступні українською, англійською та польською.',cta:'Відкрити випадковий демо-промпт →',note:'Демо відкриває лише 1 випадковий сценарій із 3 тем. Повна бібліотека 360 сценаріїв у пробній версії прихована.',copy:'Скопіювати промпт',copied:'Скопійовано ✓',cards:[['Робота із запереченням щодо ціни','Практична діагностика справжньої причини цінового заперечення.'],['Перший контакт','Побудова сильного першого повідомлення або початку розмови.'],['Виявлення потреб','Структуровані питання для виявлення проблеми, мотивації та критеріїв рішення.']]},
+en:{badge:'TRIAL VERSION · 1 RANDOM PROMPT',title:'AI assistant for professional sales',subtitle:'Try one randomly selected professional scenario from three essential sales topics. The interface and demo are available in Ukrainian, English and Polish.',cta:'Open a random demo prompt →',note:'The demo unlocks only 1 random scenario from 3 topics. The full library of 360 scenarios is hidden in the trial version.',copy:'Copy prompt',copied:'Copied ✓',cards:[['Handling a price objection','Diagnose the real reason behind a price objection and respond without discounting automatically.'],['First contact','Build a strong opening message or first conversation with a potential client.'],['Needs discovery','Use structured questions to uncover the problem, motivation and decision criteria.']]},
+pl:{badge:'WERSJA PRÓBNA · 1 LOSOWY PROMPT',title:'Asystent AI dla profesjonalnej sprzedaży',subtitle:'Wypróbuj jeden losowo wybrany profesjonalny scenariusz z trzech kluczowych tematów sprzedażowych. Interfejs i demo są dostępne po ukraińsku, angielsku i polsku.',cta:'Otwórz losowy prompt demo →',note:'Demo odblokowuje tylko 1 losowy scenariusz z 3 tematów. Pełna biblioteka 360 scenariuszy jest ukryta w wersji próbnej.',copy:'Kopiuj prompt',copied:'Skopiowano ✓',cards:[['Praca z obiekcją dotyczącą ceny','Diagnoza rzeczywistej przyczyny obiekcji cenowej i odpowiedź bez automatycznego rabatu.'],['Pierwszy kontakt','Budowanie mocnej pierwszej wiadomości lub rozpoczęcia rozmowy z potencjalnym klientem.'],['Badanie potrzeb','Ustrukturyzowane pytania pozwalające odkryć problem, motywację i kryteria decyzji.']]}}
+const P={
+uk:[['Заперечення щодо ціни · B2B','Ти — консультант із B2B-продажів. Працюй як практик.
+
+СЦЕНАРІЙ: Клієнт каже, що ціна занадто висока.
+
+Вхідні дані:
+• Продукт/послуга: [вкажіть]
+• Клієнт: [вкажіть]
+• Ціна/сума угоди: [вкажіть]
+• Дослівне заперечення: [вкажіть]
+• Відомі факти: [вкажіть]
+
+Якщо даних недостатньо, постав до 5 уточнювальних питань.
+
+Після цього дай:
+А. Діагноз справжньої причини заперечення.
+Б. Питання, яке відрізнить проблему бюджету від відсутності цінності.
+В. Що не можна поступатися автоматично.
+Г. Альтернативу без втрати цінності.
+Д. Доказ, який може зняти сумнів.
+Е. Готові фрази менеджера.
+Ж. Наступний крок і рекомендований строк.
+
+Не вигадуй факти про клієнта.'],['Перший контакт · B2B','Ти — практик B2B-продажів.
+
+СЦЕНАРІЙ: Потрібно розпочати перший контакт із потенційним клієнтом.
+
+Вхідні дані:
+• Продукт/послуга: [вкажіть]
+• Тип компанії: [вкажіть]
+• Посада контакту: [вкажіть]
+• Канал контакту: [LinkedIn / email / дзвінок / інше]
+• Відомі факти: [вкажіть]
+
+Якщо даних недостатньо, постав до 5 уточнювальних питань.
+
+Побудуй:
+А. Гіпотезу, чому саме цьому контакту може бути актуальна розмова.
+Б. Коротке персоналізоване відкриття.
+В. 3 варіанти першого повідомлення.
+Г. Одне запитання для запуску діалогу.
+Д. Чого не писати в першому контакті.
+Е. Наступний крок.'],['Виявлення потреб · Продаж','Ти — консультант із продажів.
+
+СЦЕНАРІЙ: Потрібно виявити реальні потреби клієнта до презентації рішення.
+
+Вхідні дані:
+• Продукт/послуга: [вкажіть]
+• Клієнт/сфера: [вкажіть]
+• Етап продажу: [вкажіть]
+• Відомі факти: [вкажіть]
+
+Якщо даних недостатньо, постав до 5 уточнювальних питань.
+
+Дай:
+А. Діагноз того, що ще невідомо.
+Б. 8 питань у логічній послідовності.
+В. Питання для виявлення проблеми, наслідків і мотивації.
+Г. Питання для розуміння процесу прийняття рішення.
+Д. Ознаки поверхневої відповіді клієнта.
+Е. Готовий перехід від діагностики до презентації рішення.']],
+en:[['Price objection · B2B','You are a practical B2B sales consultant.
+
+SCENARIO: The client says the price is too high.
+
+Inputs:
+• Product/service: [specify]
+• Client: [specify]
+• Deal value: [specify]
+• Exact objection: [specify]
+• Known facts: [specify]
+
+If information is insufficient, ask up to 5 clarifying questions.
+
+Then provide:
+A. Diagnosis of the real objection.
+B. A question that separates a budget issue from a value issue.
+C. What must not be conceded automatically.
+D. A value-preserving alternative.
+E. Evidence that could reduce doubt.
+F. Ready-to-use sales phrases.
+G. Next step and recommended timing.
+
+Do not invent facts about the client.'],['First contact · B2B','You are a practical B2B sales professional.
+
+SCENARIO: Start a first conversation with a potential client.
+
+Inputs:
+• Product/service: [specify]
+• Company type: [specify]
+• Contact role: [specify]
+• Channel: [LinkedIn / email / call / other]
+• Known facts: [specify]
+
+If information is insufficient, ask up to 5 clarifying questions.
+
+Build:
+A. A relevance hypothesis.
+B. A concise personalized opening.
+C. 3 first-message variations.
+D. One question that starts a real dialogue.
+E. What not to write in the first contact.
+F. The next step.'],['Needs discovery · Sales','You are a practical sales consultant.
+
+SCENARIO: Discover the client’s real needs before presenting a solution.
+
+Inputs:
+• Product/service: [specify]
+• Client/industry: [specify]
+• Sales stage: [specify]
+• Known facts: [specify]
+
+If information is insufficient, ask up to 5 clarifying questions.
+
+Provide:
+A. A diagnosis of what is still unknown.
+B. 8 questions in a logical sequence.
+C. Questions about the problem, consequences and motivation.
+D. Questions about the decision-making process.
+E. Signs of a superficial client answer.
+F. A ready transition from discovery to solution presentation.']],
+pl:[['Obiekcja cenowa · B2B','Jesteś praktycznym konsultantem sprzedaży B2B.
+
+SCENARIUSZ: Klient mówi, że cena jest zbyt wysoka.
+
+Dane wejściowe:
+• Produkt/usługa: [podaj]
+• Klient: [podaj]
+• Wartość transakcji: [podaj]
+• Dokładna obiekcja: [podaj]
+• Znane fakty: [podaj]
+
+Jeśli brakuje danych, zadaj maksymalnie 5 pytań doprecyzowujących.
+
+Następnie podaj:
+A. Diagnozę rzeczywistej przyczyny obiekcji.
+B. Pytanie odróżniające problem budżetu od problemu wartości.
+C. Na co nie wolno automatycznie się zgadzać.
+D. Alternatywę bez utraty wartości.
+E. Dowód, który może zmniejszyć wątpliwości.
+F. Gotowe sformułowania dla handlowca.
+G. Następny krok i zalecany termin.
+
+Nie wymyślaj faktów o kliencie.'],['Pierwszy kontakt · B2B','Jesteś praktykiem sprzedaży B2B.
+
+SCENARIUSZ: Trzeba rozpocząć pierwszą rozmowę z potencjalnym klientem.
+
+Dane wejściowe:
+• Produkt/usługa: [podaj]
+• Typ firmy: [podaj]
+• Stanowisko kontaktu: [podaj]
+• Kanał: [LinkedIn / e-mail / telefon / inne]
+• Znane fakty: [podaj]
+
+Jeśli brakuje danych, zadaj maksymalnie 5 pytań doprecyzowujących.
+
+Przygotuj:
+A. Hipotezę, dlaczego rozmowa może być istotna dla tego kontaktu.
+B. Krótkie spersonalizowane otwarcie.
+C. 3 warianty pierwszej wiadomości.
+D. Jedno pytanie rozpoczynające dialog.
+E. Czego nie pisać przy pierwszym kontakcie.
+F. Następny krok.'],['Badanie potrzeb · Sprzedaż','Jesteś praktycznym konsultantem sprzedaży.
+
+SCENARIUSZ: Trzeba odkryć rzeczywiste potrzeby klienta przed prezentacją rozwiązania.
+
+Dane wejściowe:
+• Produkt/usługa: [podaj]
+• Klient/branża: [podaj]
+• Etap sprzedaży: [podaj]
+• Znane fakty: [podaj]
+
+Jeśli brakuje danych, zadaj maksymalnie 5 pytań doprecyzowujących.
+
+Podaj:
+A. Diagnozę tego, czego jeszcze nie wiadomo.
+B. 8 pytań w logicznej kolejności.
+C. Pytania o problem, konsekwencje i motywację.
+D. Pytania o proces podejmowania decyzji.
+E. Oznaki powierzchownej odpowiedzi klienta.
+F. Gotowe przejście od diagnozy do prezentacji rozwiązania.']]}
+let lang='uk';const $=s=>document.querySelector(s);function render(){const t=T[lang];document.documentElement.lang=lang;$('#badge').textContent=t.badge;$('#title').textContent=t.title;$('#subtitle').textContent=t.subtitle;$('#demoBtn').textContent=t.cta;$('#note').textContent=t.note;$('#copyBtn').textContent=t.copy;$('#cards').innerHTML=t.cards.map((x,i)=>`<article class="card"><div class="num">0${i+1} · DEMO TOPIC</div><h3>${x[0]}</h3><p>${x[1]}</p></article>`).join('');document.querySelectorAll('.lang').forEach(b=>b.classList.toggle('active',b.dataset.lang===lang))}document.querySelectorAll('.lang').forEach(b=>b.onclick=()=>{lang=b.dataset.lang;render()});$('#demoBtn').onclick=()=>{const p=P[lang][Math.floor(Math.random()*3)];$('#meta').textContent='AI Sales Machine · Demo';$('#modalTitle').textContent=p[0];$('#promptText').textContent=p[1];$('#modal').style.display='flex'};$('#closeBtn').onclick=()=>$('#modal').style.display='none';$('#modal').onclick=e=>{if(e.target.id==='modal')$('#modal').style.display='none'};$('#copyBtn').onclick=async()=>{await navigator.clipboard.writeText($('#promptText').textContent);$('#copyBtn').textContent=T[lang].copied;setTimeout(()=>$('#copyBtn').textContent=T[lang].copy,1500)};render();
+</script></body></html>
