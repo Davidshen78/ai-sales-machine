@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="AI Sales Machine — багатомовна бібліотека професійних сценаріїв для B2B-продажів.">
+<meta name="robots" content="noindex,nofollow">
+<title>AI Sales Machine</title>
+<style>
+:root{
+  --bg:#07111f;--panel:#0d1b2d;--panel2:#10243a;--line:#24405b;
+  --text:#f4f8fc;--muted:#9db0c4;--accent:#63a4ff;--accent2:#78e0b8;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);
+font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif}
+body{overflow-x:hidden}
+button{font:inherit;cursor:pointer}
+button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.top{position:sticky;top:0;z-index:10;height:70px;padding:0 clamp(16px,4vw,56px);
+display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);
+background:rgba(7,17,31,.94);backdrop-filter:blur(14px)}
+.logo{font-weight:900;letter-spacing:.4px}.logo b{color:var(--accent2)}
+.langs{display:flex;gap:6px}.lang{border:1px solid var(--line);background:transparent;color:var(--muted);
+border-radius:9px;padding:8px 11px;font-weight:800}.lang.active{background:var(--accent);color:#06101c;border-color:var(--accent)}
+.hero{max-width:980px;margin:auto;padding:88px 24px 58px;text-align:center}
+.badge{display:inline-block;padding:8px 12px;border:1px solid var(--line);border-radius:999px;color:var(--accent2);
+background:#0a2030;font-size:12px;font-weight:900;letter-spacing:.7px}
+h1{font-size:clamp(40px,7vw,78px);line-height:.98;letter-spacing:-2px;margin:22px 0}
+.hero p{max-width:720px;margin:0 auto;color:var(--muted);font-size:clamp(17px,2vw,21px);line-height:1.6}
+.actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:28px}
+.btn{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:13px 18px;border-radius:12px;font-weight:850}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#06101c}
+.note{margin-top:15px;color:var(--muted);font-size:13px}
+.wrap{max-width:1180px;margin:auto;padding:0 24px 70px}
+.section-title{font-size:28px;margin:0 0 18px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{background:linear-gradient(180deg,var(--panel),#0a1726);border:1px solid var(--line);border-radius:18px;padding:20px}
+.card strong{display:block;font-size:17px}.card span{display:block;color:var(--muted);font-size:14px;line-height:1.45;margin-top:8px}
+.demo{margin-top:24px;background:linear-gradient(135deg,#0d2238,#0a1726);border:1px solid var(--line);border-radius:22px;padding:28px;text-align:center}
+.demo h2{margin:0 0 10px}.demo p{color:var(--muted);margin:0 auto 18px;max-width:650px;line-height:1.55}
+.modal{position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.72)}
+.modal.open{display:flex}.dialog{width:min(860px,100%);max-height:90vh;overflow:auto;background:#091726;border:1px solid var(--line);border-radius:22px;padding:28px}
+.dialog-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.dialog h2{margin:8px 0 0}
+.close{border:0;background:transparent;color:var(--muted);font-size:28px;line-height:1}
+.prompt-box{white-space:pre-wrap;background:#050d17;border:1px solid var(--line);border-radius:15px;padding:18px;line-height:1.58;color:#dce8f3;font-size:14px;margin:20px 0}
+.footer{padding:26px 24px 42px;text-align:center;color:#71869c;font-size:13px}
+@media(max-width:850px){
+ .top{height:64px;padding:0 16px}.logo{font-size:14px}.lang{padding:7px 9px}
+ .hero{padding:58px 18px 38px}h1{letter-spacing:-1.5px}.wrap{padding:0 16px 90px}
+ .grid{grid-template-columns:1fr}.demo{padding:22px 16px}.actions{flex-direction:column}.actions .btn{width:100%}
+ .modal{padding:0;align-items:stretch}.dialog{width:100%;height:100%;max-height:none;border-radius:0;border:0;padding:20px 16px calc(28px + env(safe-area-inset-bottom))}
+ .prompt-box{font-size:13px;padding:15px}.dialog .btn{width:100%}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="logo">AI <b>SALES MACHINE</b></div>
+  <div class="langs" aria-label="Language">
+    <button class="lang active" data-lang="uk">UA</button>
+    <button class="lang" data-lang="en">EN</button>
+    <button class="lang" data-lang="pl">PL</button>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="badge" id="badge"></div>
+  <h1 id="title"></h1>
+  <p id="subtitle"></p>
+  <div class="actions">
+    <button class="btn primary" id="demoBtn"></button>
+    <button class="btn" id="scrollBtn"></button>
+  </div>
+  <div class="note" id="note"></div>
+</section>
+
+<section class="wrap" id="categories">
+  <h2 class="section-title" id="categoriesTitle"></h2>
+  <div class="grid" id="grid"></div>
+
+  <section class="demo">
+    <h2 id="demoTitle"></h2>
+    <p id="demoText"></p>
+    <button class="btn primary" id="demoBtn2"></button>
+  </section>
+</section>
+</main>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="dialog">
+    <div class="dialog-head">
+      <div>
+        <div class="badge" id="modalBadge"></div>
+        <h2 id="modalTitle"></h2>
+      </div>
+      <button class="close" id="closeBtn" aria-label="Close">×</button>
+    </div>
+    <div class="prompt-box" id="promptText"></div>
+    <button class="btn primary" id="copyBtn"></button>
+  </div>
+</div>
+
+<footer class="footer">AI Sales Machine • Trial version</footer>
+
+<script>
+const translations = {
+uk:{
+ badge:"БАГАТОМОВНА ПРОБНА ВЕРСІЯ",
+ title:"ШІ-помічник для B2B-продажів",
+ subtitle:"Практичні сценарії для першого контакту, виявлення потреб, роботи із запереченнями, переговорів та закриття угод.",
+ demoBtn:"Спробувати демо →", scrollBtn:"Переглянути категорії", note:"У демо відкривається 1 випадковий професійний промпт із 3 тем.",
+ categoriesTitle:"12 напрямів продажів",
+ demoTitle:"Спробуйте AI Sales Machine",
+ demoText:"Натисніть кнопку — система випадково вибере один сценарій із трьох демонстраційних тем.",
+ copyBtn:"Скопіювати промпт",
+ copied:"Скопійовано ✓",
+ cards:[
+ ["Пошук клієнтів","Пошук і первинний відбір потенційних B2B-клієнтів."],
+ ["Перший контакт","Початок діалогу та формування інтересу."],
+ ["Виявлення потреб","Діагностика проблем, задач і мотивів клієнта."],
+ ["Кваліфікація","Оцінка перспективності угоди та наступного кроку."],
+ ["Презентація цінності","Пояснення вигоди через бізнес-результат."],
+ ["Заперечення","Робота з ціною, ризиками, конкуренцією та іншими бар’єрами."],
+ ["Переговори","Практичні сценарії для складних комерційних переговорів."],
+ ["Комерційні пропозиції","Підготовка зрозумілої та переконливої пропозиції."],
+ ["Повторний контакт","Повернення клієнта в діалог без нав’язливості."],
+ ["Закриття угоди","Перехід від обговорення до конкретного рішення."],
+ ["Допродаж","Розширення співпраці та збільшення цінності клієнта."],
+ ["Утримання клієнтів","Зниження ризику відтоку та розвиток відносин."]
+ ],
+ prompts:[
+  {theme:"Робота із запереченням щодо ціни", text:`Ти — консультант із B2B-продажів. Працюй як практик.\n\nСЦЕНАРІЙ\nКлієнт каже: «Для нас це занадто дорого».\n\nСпочатку відокрем факти від припущень. Не вважай, що причина лише в ціні.\n\nПостав до 5 уточнювальних питань, щоб з’ясувати:\n1. З чим клієнт порівнює ціну.\n2. Чи бачить він цінність і результат.\n3. Чи є реальне бюджетне обмеження.\n4. Хто приймає рішення.\n5. Які альтернативи розглядаються.\n\nПотім дай:\nА. Діагноз.\nБ. Можливі справжні причини заперечення.\nВ. Готові фрази менеджера.\nГ. Альтернативу без автоматичної знижки.\nД. Доказ, який може зняти сумнів.\nЕ. Наступний крок і рекомендований строк.\n\nНе вигадуй фактів або намірів клієнта.`},
+  {theme:"Перший контакт із потенційним клієнтом", text:`Ти — практик B2B-продажів.\n\nСЦЕНАРІЙ\nПотрібно розпочати перший контакт із потенційним клієнтом, не знаючи достатньо про його поточні потреби.\n\nСпочатку постав до 5 уточнювальних питань про продукт, ICP, посаду контакту, причину звернення та бажаний результат.\n\nПотім сформуй:\nА. Найкращу гіпотезу цінності.\nБ. Коротке перше повідомлення.\nВ. Альтернативний варіант для холодного контакту.\nГ. Питання, яке підвищує шанс відповіді.\nД. Логіку повторного контакту.\nЕ. Наступний крок.\n\nНе використовуй порожні компліменти, штампи або тиск.`},
+  {theme:"Виявлення потреб клієнта", text:`Ти — консультант із діагностики B2B-потреб.\n\nСЦЕНАРІЙ\nКлієнт погодився на розмову, але його реальна проблема ще не визначена.\n\nСпочатку відокрем факти від припущень.\n\nПобудуй послідовність питань, щоб з’ясувати:\n1. Поточну ситуацію.\n2. Проблему або втрату.\n3. Наслідки без змін.\n4. Бажаний результат.\n5. Критерії рішення.\n\nДалі дай:\nА. Діагностичну карту.\nБ. 7–10 практичних питань у логічній послідовності.\nВ. Ознаки поверхневої відповіді.\nГ. Фрази для поглиблення діалогу.\nД. Критерій достатньої кваліфікації.\nЕ. Наступний крок.\n\nНе вигадуй проблему за клієнта.`}
+ ]
+},
+en:{
+ badge:"MULTILINGUAL TRIAL VERSION",
+ title:"AI assistant for B2B sales",
+ subtitle:"Practical scenarios for first contact, discovery, objection handling, negotiations and closing.",
+ demoBtn:"Try the demo →", scrollBtn:"View categories", note:"The demo opens 1 randomly selected professional prompt from 3 topics.",
+ categoriesTitle:"12 sales areas", demoTitle:"Try AI Sales Machine",
+ demoText:"Click the button and the system will randomly select one scenario from three demo topics.",
+ copyBtn:"Copy prompt", copied:"Copied ✓",
+ cards:[
+ ["Prospecting","Finding and prioritizing potential B2B buyers."],["First contact","Starting a conversation and creating relevant interest."],
+ ["Discovery","Diagnosing the buyer's problems, goals and motives."],["Qualification","Assessing deal quality and the right next step."],
+ ["Value presentation","Connecting the offer to a meaningful business outcome."],["Objection handling","Handling price, risk, competition and other barriers."],
+ ["Negotiation","Practical scenarios for complex commercial negotiations."],["Proposals","Creating clear and persuasive commercial proposals."],
+ ["Follow-up","Re-engaging a prospect without becoming intrusive."],["Closing","Moving from discussion to a concrete decision."],
+ ["Expansion","Growing account value and the scope of cooperation."],["Retention","Reducing churn risk and developing the relationship."]
+ ],
+ prompts:[
+  {theme:"Price objection",text:`You are a practical B2B sales consultant.\n\nSCENARIO\nThe buyer says: “This is too expensive for us.”\n\nSeparate facts from assumptions first. Do not assume price is the only issue.\n\nAsk up to 5 clarifying questions to determine:\n1. What the buyer is comparing the price against.\n2. Whether the buyer sees the expected value.\n3. Whether there is a real budget constraint.\n4. Who makes the final decision.\n5. Which alternatives are being considered.\n\nThen provide:\nA. Diagnosis.\nB. Likely underlying reasons.\nC. Ready-to-use sales language.\nD. An alternative without an automatic discount.\nE. Evidence that could reduce uncertainty.\nF. A specific next step and timeframe.\n\nDo not invent facts, numbers or buyer intentions.`},
+  {theme:"First contact with a prospect",text:`You are a practical B2B sales professional.\n\nSCENARIO\nYou need to start a first conversation with a potential customer, but you do not yet know enough about their current priorities.\n\nAsk up to 5 clarifying questions about the product, ICP, contact role, reason for outreach and desired outcome.\n\nThen create:\nA. The strongest value hypothesis.\nB. A concise first message.\nC. An alternative version for a cold outreach.\nD. A question that increases the chance of a reply.\nE. A follow-up sequence.\nF. The recommended next step.\n\nAvoid generic compliments, clichés and pressure.`},
+  {theme:"Customer discovery",text:`You are a B2B discovery consultant.\n\nSCENARIO\nThe customer agreed to talk, but the real business problem has not yet been identified.\n\nSeparate facts from assumptions first.\n\nBuild a question sequence to uncover:\n1. The current situation.\n2. The problem or loss.\n3. The consequences of doing nothing.\n4. The desired outcome.\n5. Decision criteria.\n\nThen provide:\nA. A discovery map.\nB. 7–10 practical questions in logical order.\nC. Signals of a superficial answer.\nD. Phrases for deepening the conversation.\nE. A qualification threshold.\nF. The next step.\n\nDo not invent a problem for the customer.`}
+ ]
+},
+pl:{
+ badge:"WIELOJĘZYCZNA WERSJA TESTOWA",
+ title:"Asystent AI dla sprzedaży B2B",
+ subtitle:"Praktyczne scenariusze pierwszego kontaktu, badania potrzeb, pracy z obiekcjami, negocjacji i domykania sprzedaży.",
+ demoBtn:"Wypróbuj demo →", scrollBtn:"Zobacz kategorie", note:"Demo otwiera 1 losowo wybrany profesjonalny prompt z 3 tematów.",
+ categoriesTitle:"12 obszarów sprzedaży", demoTitle:"Wypróbuj AI Sales Machine",
+ demoText:"Kliknij przycisk — system losowo wybierze jeden scenariusz z trzech tematów demonstracyjnych.",
+ copyBtn:"Kopiuj prompt", copied:"Skopiowano ✓",
+ cards:[
+ ["Prospecting","Wyszukiwanie i wstępna selekcja potencjalnych klientów B2B."],["Pierwszy kontakt","Rozpoczęcie rozmowy i budowanie zainteresowania."],
+ ["Badanie potrzeb","Diagnozowanie problemów, celów i motywacji klienta."],["Kwalifikacja","Ocena jakości szansy sprzedażowej i kolejnego kroku."],
+ ["Prezentacja wartości","Łączenie oferty z konkretnym rezultatem biznesowym."],["Obiekcje","Praca z ceną, ryzykiem, konkurencją i innymi barierami."],
+ ["Negocjacje","Praktyczne scenariusze trudnych negocjacji handlowych."],["Oferty handlowe","Tworzenie jasnych i przekonujących propozycji."],
+ ["Follow-up","Powrót do rozmowy bez nachalności."],["Domknięcie sprzedaży","Przejście od rozmowy do konkretnej decyzji."],
+ ["Rozszerzenie współpracy","Zwiększanie wartości klienta i zakresu współpracy."],["Utrzymanie klientów","Ograniczanie ryzyka odejścia i rozwój relacji."]
+ ],
+ prompts:[
+  {theme:"Obiekcja dotycząca ceny",text:`Jesteś praktycznym konsultantem sprzedaży B2B.\n\nSCENARIUSZ\nKlient mówi: „To jest dla nas za drogie”.\n\nNajpierw oddziel fakty od założeń. Nie zakładaj, że jedynym problemem jest cena.\n\nZadaj maksymalnie 5 pytań doprecyzowujących, aby ustalić:\n1. Z czym klient porównuje cenę.\n2. Czy dostrzega oczekiwaną wartość.\n3. Czy istnieje realne ograniczenie budżetowe.\n4. Kto podejmuje ostateczną decyzję.\n5. Jakie alternatywy są rozważane.\n\nNastępnie podaj:\nA. Diagnozę.\nB. Prawdopodobne rzeczywiste przyczyny obiekcji.\nC. Gotowe sformułowania dla handlowca.\nD. Alternatywę bez automatycznego rabatu.\nE. Dowód, który może zmniejszyć wątpliwości.\nF. Konkretny następny krok i rekomendowany termin.\n\nNie wymyślaj faktów, liczb ani intencji klienta.`},
+  {theme:"Pierwszy kontakt z potencjalnym klientem",text:`Jesteś praktykiem sprzedaży B2B.\n\nSCENARIUSZ\nMasz rozpocząć pierwszy kontakt z potencjalnym klientem, ale nie znasz jeszcze wystarczająco jego aktualnych priorytetów.\n\nZadaj maksymalnie 5 pytań doprecyzowujących dotyczących produktu, ICP, roli kontaktu, powodu kontaktu i oczekiwanego rezultatu.\n\nNastępnie przygotuj:\nA. Najsilniejszą hipotezę wartości.\nB. Krótką pierwszą wiadomość.\nC. Alternatywną wersję dla cold outreach.\nD. Pytanie zwiększające szansę na odpowiedź.\nE. Logikę follow-upu.\nF. Rekomendowany następny krok.\n\nUnikaj pustych komplementów, schematów i presji.`},
+  {theme:"Badanie potrzeb klienta",text:`Jesteś konsultantem ds. diagnozowania potrzeb B2B.\n\nSCENARIUSZ\nKlient zgodził się na rozmowę, ale jego rzeczywisty problem biznesowy nie został jeszcze określony.\n\nNajpierw oddziel fakty od założeń.\n\nZbuduj sekwencję pytań, aby ustalić:\n1. Obecną sytuację.\n2. Problem lub stratę.\n3. Konsekwencje braku zmiany.\n4. Pożądany rezultat.\n5. Kryteria decyzji.\n\nNastępnie podaj:\nA. Mapę diagnozy.\nB. 7–10 praktycznych pytań w logicznej kolejności.\nC. Sygnały powierzchownej odpowiedzi.\nD. Zwroty pogłębiające rozmowę.\nE. Kryterium wystarczającej kwalifikacji.\nF. Następny krok.\n\nNie wymyślaj problemu za klienta.`}
+ ]
+}
+};
+
+let currentLang="uk";
+let lastPrompt=null;
+const $=id=>document.getElementById(id);
+
+function render(){
+ const t=translations[currentLang];
+ document.documentElement.lang=currentLang;
+ document.title="AI Sales Machine";
+ $("badge").textContent=t.badge;
+ $("title").textContent=t.title;
+ $("subtitle").textContent=t.subtitle;
+ $("demoBtn").textContent=t.demoBtn;
+ $("demoBtn2").textContent=t.demoBtn;
+ $("scrollBtn").textContent=t.scrollBtn;
+ $("note").textContent=t.note;
+ $("categoriesTitle").textContent=t.categoriesTitle;
+ $("demoTitle").textContent=t.demoTitle;
+ $("demoText").textContent=t.demoText;
+ $("copyBtn").textContent=t.copyBtn;
+ $("grid").innerHTML=t.cards.map((c,i)=>`<article class="card"><strong>${String(i+1).padStart(2,"0")}. ${c[0]}</strong><span>${c[1]}</span></article>`).join("");
+ document.querySelectorAll(".lang").forEach(b=>b.classList.toggle("active",b.dataset.lang===currentLang));
+}
+function openDemo(){
+ const t=translations[currentLang];
+ lastPrompt=t.prompts[Math.floor(Math.random()*t.prompts.length)];
+ $("modalBadge").textContent=t.badge;
+ $("modalTitle").textContent=lastPrompt.theme;
+ $("promptText").textContent=lastPrompt.text;
+ $("copyBtn").textContent=t.copyBtn;
+ $("modal").classList.add("open");
+}
+async function copyPrompt(){
+ if(!lastPrompt)return;
+ const t=translations[currentLang];
+ try{
+   await navigator.clipboard.writeText(lastPrompt.text);
+ }catch(e){
+   const ta=document.createElement("textarea");
+   ta.value=lastPrompt.text;document.body.appendChild(ta);ta.select();document.execCommand("copy");ta.remove();
+ }
+ $("copyBtn").textContent=t.copied;
+ setTimeout(()=>{$("copyBtn").textContent=t.copyBtn},1500);
+}
+document.querySelectorAll(".lang").forEach(b=>b.addEventListener("click",()=>{currentLang=b.dataset.lang;render()}));
+$("demoBtn").addEventListener("click",openDemo);
+$("demoBtn2").addEventListener("click",openDemo);
+$("scrollBtn").addEventListener("click",()=>$("categories").scrollIntoView({behavior:"smooth"}));
+$("closeBtn").addEventListener("click",()=>$("modal").classList.remove("open"));
+$("modal").addEventListener("click",e=>{if(e.target===$("modal"))$("modal").classList.remove("open")});
+$("copyBtn").addEventListener("click",copyPrompt);
+document.addEventListener("keydown",e=>{if(e.key==="Escape")$("modal").classList.remove("open")});
+render();
+</script>
+</body>
+</html>
