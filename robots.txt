@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ai-sales-machine-j9s3.vercel.app/sitemap.xml
